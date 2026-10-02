@@ -39,7 +39,7 @@ nocol='\033[0m'
 
 Build () {
 PATH="${COMPILERDIR}/bin:${PATH}" \
-make -j$(nproc --all) O=out \
+make -j$(nproc --all) O=out vendor/xiaomi/mi845_defconfig vendor/xiaomi/dipper.config \
 ARCH=${ARCH} \
 LLVM=1 LLVM_IAS=1 \
 CC=${COMPILER} \
@@ -55,19 +55,6 @@ OBJDUMP=llvm-objdump \
 STRIP=llvm-strip \
 LD_LIBRARY_PATH=${COMPILERDIR}/lib 2>&1 | tee log.txt
 }
-
-# Make defconfig
-
-make O=out ARCH=arm64 CC=clang LD=ld.lld LLVM=1 \
-  vendor/xiaomi/mi845_defconfig vendor/xiaomi/dipper.config
-
-if [ $? -ne 0 ]
-then
-    echo "Build failed"
-else
-    echo "Made "
-fi
-
 
 # Build starts here
     #NSE
